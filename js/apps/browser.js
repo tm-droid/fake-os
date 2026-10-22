@@ -6,6 +6,7 @@ import {
   HOME_URL,
   resolveInput,
   isInternal,
+  isWebUrl,
   internalPage,
   displayTitle,
   addressText,
@@ -209,14 +210,14 @@ export default {
       clearTimeout(tab.slowTimer);
       tab.blocked = false;
       tab.title = displayTitle(url);
-      if (isInternal(url)) {
+      if (isInternal(url) || !isWebUrl(url)) {
         if (tab.frame) {
           tab.frame.remove();
           tab.frame = null;
         }
         tab.loading = false;
         tab.page.classList.add('is-internal');
-        tab.page.innerHTML = internalHtml(internalPage(url));
+        tab.page.innerHTML = internalHtml(isInternal(url) ? internalPage(url) : 'blocked');
         wireInternal(tab);
       } else {
         tab.page.classList.remove('is-internal');
@@ -236,7 +237,12 @@ export default {
       tab.loading = true;
       const frame = document.createElement('iframe');
       frame.className = 'browser-frame';
-      frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox');
+      // A same-origin page with both allow-scripts and allow-same-origin could reach into FakeOS, so it gets neither origin.
+      const sameOrigin = new URL(url).origin === location.origin;
+      frame.setAttribute(
+        'sandbox',
+        `allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox${sameOrigin ? '' : ' allow-same-origin'}`,
+      );
       frame.setAttribute('referrerpolicy', 'no-referrer');
       frame.setAttribute('allow', 'fullscreen');
       frame.title = displayTitle(url);
@@ -356,6 +362,14 @@ export default {
               <dt>Alt+Left / Right</dt><dd>Back / Forward</dd>
             </dl>
             <p class="browser-muted">Internal pages: fakeos://newtab, fakeos://history, fakeos://bookmarks, fakeos://about</p>
+          </div>`;
+      }
+      if (page === 'blocked') {
+        return `
+          <div class="browser-doc browser-about">
+            <h1>Can’t open this address</h1>
+            <p>Browser only opens http:// and https:// web pages.</p>
+            <button type="button" class="browser-button" data-go="${HOME_URL}">Go to New Tab</button>
           </div>`;
       }
       return `

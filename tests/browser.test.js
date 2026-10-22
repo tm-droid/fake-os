@@ -8,6 +8,12 @@ test('resolveInput keeps full URLs', () => {
   assert.equal(resolveInput('  http://x.org  '), 'http://x.org');
 });
 
+test('resolveInput never returns script or data URLs', () => {
+  assert.equal(resolveInput('javascript://%0aalert(1)').startsWith(SEARCH_URL), true);
+  assert.equal(resolveInput('data://text/html,hi').startsWith(SEARCH_URL), true);
+  assert.equal(resolveInput('javascript:alert(1)').startsWith(SEARCH_URL), true);
+});
+
 test('resolveInput adds https to bare domains and http to local hosts', () => {
   assert.equal(resolveInput('wikipedia.org'), 'https://wikipedia.org');
   assert.equal(resolveInput('en.wikipedia.org/wiki/Cat'), 'https://en.wikipedia.org/wiki/Cat');

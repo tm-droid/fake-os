@@ -10,7 +10,7 @@ const LOCAL_RE = /^(localhost|\d{1,3}(\.\d{1,3}){3})(:\d+)?(\/\S*)?$/i;
 export function resolveInput(text) {
   const input = String(text ?? '').trim();
   if (!input) return HOME_URL;
-  if (SCHEME_RE.test(input)) return input;
+  if (SCHEME_RE.test(input)) return isWebUrl(input) ? input : SEARCH_URL + encodeURIComponent(input);
   if (/^(about|fakeos):/i.test(input)) return `fakeos://${input.replace(/^(about|fakeos):\/*/i, '')}`;
   if (LOCAL_RE.test(input)) return `http://${input}`;
   if (DOMAIN_RE.test(input)) return `https://${input}`;
@@ -18,6 +18,9 @@ export function resolveInput(text) {
 }
 
 export const isInternal = (url) => url.startsWith('fakeos://');
+
+// Only http(s) pages may load in a frame; javascript:, data: and friends would run in our origin.
+export const isWebUrl = (url) => /^https?:\/\//i.test(url);
 
 // Internal page name for a fakeos:// URL ("newtab", "history", ...).
 export const internalPage = (url) => url.slice('fakeos://'.length).split(/[/?#]/)[0].toLowerCase() || 'newtab';
