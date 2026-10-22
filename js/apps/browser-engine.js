@@ -10,8 +10,8 @@ const LOCAL_RE = /^(localhost|\d{1,3}(\.\d{1,3}){3})(:\d+)?(\/\S*)?$/i;
 export function resolveInput(text) {
   const input = String(text ?? '').trim();
   if (!input) return HOME_URL;
-  if (SCHEME_RE.test(input)) return isWebUrl(input) ? input : SEARCH_URL + encodeURIComponent(input);
   if (/^(about|fakeos):/i.test(input)) return `fakeos://${input.replace(/^(about|fakeos):\/*/i, '')}`;
+  if (SCHEME_RE.test(input)) return isWebUrl(input) ? input : SEARCH_URL + encodeURIComponent(input);
   if (LOCAL_RE.test(input)) return `http://${input}`;
   if (DOMAIN_RE.test(input)) return `https://${input}`;
   return SEARCH_URL + encodeURIComponent(input);
