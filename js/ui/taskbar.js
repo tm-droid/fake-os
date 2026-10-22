@@ -5,6 +5,7 @@ const TRACKED = [
   'proc:start',
   'proc:stop',
   'apps:change',
+  'apps:installed',
   'win:open',
   'win:close',
   'win:focus',
@@ -13,7 +14,7 @@ const TRACKED = [
 ];
 
 export function createTaskbar({ el, os, toggleLauncher }) {
-  const { events, wm, processes, popper, launch } = os;
+  const { events, wm, processes, popper, launch, catalog } = os;
 
   el.innerHTML = `
     <button type="button" class="tb-start" aria-label="Open launcher" title="Launcher">${glyph('grid')}</button>
@@ -32,7 +33,9 @@ export function createTaskbar({ el, os, toggleLauncher }) {
   function renderDock() {
     const focused = wm.focused();
     const runningIds = new Set(processes.running().map((proc) => proc.appId));
-    const shown = processes.apps().filter((app) => app.pinned || runningIds.has(app.id));
+    const shown = processes
+      .apps()
+      .filter((app) => catalog.isInstalled(app.id) && (app.pinned || runningIds.has(app.id)));
     dock.replaceChildren(
       ...shown.map((app) => {
         const btn = document.createElement('button');

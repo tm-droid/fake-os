@@ -1,0 +1,206 @@
+/* App Store: category sidebar, search toolbar, and a responsive grid of app cards. */
+
+.store-body {
+  background: var(--window);
+}
+
+.store {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  color: var(--text);
+}
+
+.store-sidebar {
+  flex: none;
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 10px;
+  background: var(--glass);
+  border-right: 0.5px solid var(--line);
+  overflow-y: auto;
+}
+
+.store-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.store-category:hover {
+  background: var(--hover);
+}
+
+.store-category[aria-pressed='true'] {
+  background: var(--selected);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.store-category-count {
+  font-size: 11px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.store-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.store-toolbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--line);
+  background: var(--window-bar-inactive);
+}
+
+.store-search-wrap {
+  flex: 0 1 260px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 9px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--field);
+  box-shadow: inset 0 0 0 0.5px var(--line);
+  color: var(--text-3);
+}
+
+.store-search {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.store-count {
+  flex: none;
+  font-size: 12px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.store-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-content: start;
+  gap: 10px;
+  padding: 14px;
+}
+
+.store-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--window-bar-inactive);
+  box-shadow: inset 0 0 0 0.5px var(--line);
+}
+
+.store-tile .app-tile {
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
+}
+
+.store-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.store-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.store-meta {
+  margin: 1px 0 0;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.store-summary {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-2);
+}
+
+.store-actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.store-actions .btn {
+  min-width: 64px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.store-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+.store-empty[hidden] {
+  display: none;
+}
+
+/* Phone-width windows: the sidebar becomes a horizontal strip above the list. */
+@media (max-width: 600px) {
+  .store {
+    flex-direction: column;
+  }
+
+  .store-sidebar {
+    flex-direction: row;
+    width: auto;
+    padding: 8px;
+    border-right: 0;
+    border-bottom: 0.5px solid var(--line);
+    overflow-x: auto;
+  }
+
+  .store-category {
+    white-space: nowrap;
+  }
+
+  .store-list {
+    grid-template-columns: 1fr;
+  }
+}

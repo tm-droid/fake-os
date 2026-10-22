@@ -1,7 +1,7 @@
 // Start-style launcher: a searchable grid of every app, shown above the taskbar.
 import { appTile, glyph } from './icons.js';
 
-export function createLauncher({ el, processes, launchApp }) {
+export function createLauncher({ el, catalog, launchApp }) {
   el.innerHTML = `
     <div class="launcher-panel" role="dialog" aria-label="Launcher">
       <label class="launcher-search">
@@ -17,7 +17,7 @@ export function createLauncher({ el, processes, launchApp }) {
 
   function matches() {
     const q = input.value.trim().toLowerCase();
-    return processes.apps().filter((app) => !q || app.name.toLowerCase().includes(q));
+    return catalog.installedApps().filter((app) => !q || app.name.toLowerCase().includes(q));
   }
 
   // Keyboard highlight: `shown` is what the grid currently holds, `selected` indexes into it.

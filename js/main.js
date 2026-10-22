@@ -4,6 +4,7 @@ import { storage } from './kernel/storage.js';
 import { createFileSystem, normalize, basename } from './kernel/fs.js';
 import { createPrefs, WALLPAPERS, ACCENTS } from './kernel/prefs.js';
 import { createProcesses } from './kernel/processes.js';
+import { createCatalog } from './kernel/catalog.js';
 import { createWindowManager } from './kernel/windows.js';
 import { createDialogs } from './ui/dialogs.js';
 import { createPopper } from './ui/popper.js';
@@ -11,6 +12,7 @@ import { createMenubar } from './ui/menubar.js';
 import { createTaskbar } from './ui/taskbar.js';
 import { createLauncher } from './ui/launcher.js';
 import { createDesktop } from './ui/desktop.js';
+import { createToaster } from './ui/toast.js';
 import { runBoot } from './ui/login.js';
 import filesApp from './apps/files.js';
 import notesApp from './apps/notes.js';
@@ -22,9 +24,22 @@ import snakeApp from './apps/snake.js';
 import clockApp from './apps/clock.js';
 import activityApp from './apps/activity.js';
 import browserApp from './apps/browser.js';
+import storeApp from './apps/store.js';
 
 const $ = (id) => document.getElementById(id);
-const APPS = [filesApp, notesApp, terminalApp, calculatorApp, paintApp, settingsApp, snakeApp, clockApp, activityApp, browserApp];
+const APPS = [
+  filesApp,
+  notesApp,
+  terminalApp,
+  calculatorApp,
+  paintApp,
+  settingsApp,
+  snakeApp,
+  clockApp,
+  activityApp,
+  browserApp,
+  storeApp,
+];
 
 function applyPrefs(prefs) {
   const root = document.documentElement;
@@ -51,11 +66,17 @@ async function main() {
   const popper = createPopper(overlay);
   const wm = createWindowManager({ layer: $('windows'), minWidth: 300, minHeight: 180 });
 
-  const os = { events, fs, prefs, processes, wm, dialogs, popper, launch, openPath };
-
   for (const app of APPS) processes.register(app);
+  const catalog = createCatalog({ apps: processes.apps() });
+
+  const os = { events, fs, prefs, processes, catalog, wm, dialogs, popper, launch, openPath };
 
   function launch(appId, args = {}) {
+    if (!catalog.isInstalled(appId)) {
+      const name = processes.app(appId)?.name ?? appId;
+      dialogs.alert(`${name} is not installed. Open the App Store to install it.`, { title: 'Cannot open app' });
+      return null;
+    }
     try {
       return processes.start(appId, args);
     } catch (err) {
@@ -143,8 +164,22 @@ async function main() {
     );
   });
 
-  const launcher = createLauncher({ el: $('launcher'), processes, launchApp: launch });
+  // Removing an app closes its windows; either change tells the user what happened.
+  events.on('apps:installed', ({ id, installed }) => {
+    if (!installed) {
+      for (const proc of processes.running(id)) processes.stop(proc.pid);
+    }
+    const name = processes.app(id)?.name ?? id;
+    events.emit('notify', {
+      icon: installed ? 'check' : 'trash',
+      title: installed ? `${name} installed` : `${name} removed`,
+      body: installed ? 'Find it in the launcher.' : 'Your files are still on the disk.',
+    });
+  });
+
+  const launcher = createLauncher({ el: $('launcher'), catalog, launchApp: launch });
   const toggleLauncher = () => launcher.toggle();
+  createToaster({ el: $('toasts'), events });
   createMenubar({ el: $('menubar'), os, toggleLauncher });
   createTaskbar({ el: $('taskbar'), os, toggleLauncher });
   createDesktop({ root: $('desktop'), iconsEl: $('desktop-icons'), os });
