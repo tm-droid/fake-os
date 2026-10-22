@@ -30,7 +30,7 @@ export function createProcesses({ events = defaultEvents } = {}) {
   function start(appId, args = {}) {
     const def = registry.get(appId);
     if (!def) throw new Error(`Unknown app: ${appId}`);
-    const proc = { pid: nextPid++, appId, args, title: def.name };
+    const proc = { pid: nextPid++, appId, args, title: def.name, startedAt: Date.now() };
     table.push(proc);
     events.emit('proc:start', proc);
     return proc;

@@ -1,9 +1,10 @@
 // Clock logic with no DOM. Stopwatch and timer read time through an injected now(), so tests can drive a fake clock.
+// The default now() is performance.now(), which a system clock change cannot jump.
 
 // Milliseconds as a usable number: negatives and NaN become 0.
 const clampMs = (ms) => (Number.isFinite(ms) && ms > 0 ? ms : 0);
 
-const pad2 = (n) => String(n).padStart(2, '0');
+export const pad2 = (n) => String(n).padStart(2, '0');
 
 // Formats milliseconds as hh:mm:ss. Partial seconds are dropped and negative values show as zero.
 export function formatHMS(ms) {
@@ -25,7 +26,7 @@ export function formatClock(date) {
 }
 
 // Counts up from zero. Pause keeps the total so far, and reset clears it.
-export function createStopwatch({ now = () => Date.now() } = {}) {
+export function createStopwatch({ now = () => performance.now() } = {}) {
   let accumulated = 0; // ms counted in earlier runs
   let startedAt = null; // now() when the current run began, or null while paused
 
@@ -53,7 +54,7 @@ export function createStopwatch({ now = () => Date.now() } = {}) {
 
 // Counts down from a duration. Pause keeps the time left, and reset restores the full duration.
 // A run stops by itself when time runs out, so remaining() never goes below zero.
-export function createTimer({ durationMs = 0, now = () => Date.now() } = {}) {
+export function createTimer({ durationMs = 0, now = () => performance.now() } = {}) {
   let duration = clampMs(durationMs);
   let accumulated = 0; // ms counted in earlier runs
   let startedAt = null; // now() when the current run began, or null while paused

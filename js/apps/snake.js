@@ -221,6 +221,17 @@ export default {
       if (pid !== ctx.pid || paused || game.dead) return;
       togglePause();
     });
+    // No event reports a devicePixelRatio change, so a media query on the current ratio stands in.
+    let dprQuery = null;
+    function onDprChange() {
+      draw();
+      watchDpr();
+    }
+    function watchDpr() {
+      dprQuery = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      dprQuery.addEventListener('change', onDprChange, { once: true });
+    }
+    watchDpr();
 
     ctx.window.setMenu([
       {
@@ -236,6 +247,7 @@ export default {
       clearInterval(timer);
       observer.disconnect();
       body.removeEventListener('keydown', onKey);
+      dprQuery.removeEventListener('change', onDprChange);
     });
 
     render();
