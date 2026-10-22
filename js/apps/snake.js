@@ -71,11 +71,11 @@ export default {
     body.innerHTML = `
       <div class="snake-app">
         <div class="snake-header">
-          <span class="snake-stat">Score <strong class="snake-score">0</strong></span>
+          <span class="snake-stat">Score <strong class="snake-score" aria-live="polite">0</strong></span>
           <span class="snake-stat">Best <strong class="snake-best">0</strong></span>
         </div>
         <div class="snake-board">
-          <canvas class="snake-canvas"></canvas>
+          <canvas class="snake-canvas" role="img" aria-label="Snake game board"></canvas>
           <div class="snake-overlay" role="status" hidden></div>
         </div>
       </div>`;
@@ -159,7 +159,9 @@ export default {
 
     // Header and overlay follow the game state, then the board redraws.
     function render() {
-      scoreEl.textContent = String(game.score);
+      // The score is a live region, and rewriting the same text would make screen readers repeat it.
+      const score = String(game.score);
+      if (scoreEl.textContent !== score) scoreEl.textContent = score;
       bestEl.textContent = String(best);
       if (game.dead) {
         overlay.textContent = 'Game over, press Enter';
@@ -175,7 +177,8 @@ export default {
       game.step();
       if (game.score > best) {
         best = game.score;
-        saveBest(best);
+        // Another Snake window may have raised the stored best since this one opened.
+        saveBest(Math.max(loadBest(), best));
       }
       render();
     }
@@ -211,6 +214,13 @@ export default {
     const timer = setInterval(tick, TICK_MS);
     const observer = new ResizeObserver(() => draw());
     observer.observe(board);
+    // Theme changes move the tokens palette() reads, so a paused or finished board repaints here.
+    ctx.on('prefs:change', () => draw());
+    // Minimizing pauses the game. Restoring leaves it paused, so the player presses Space to resume.
+    ctx.on('win:minimize', ({ pid }) => {
+      if (pid !== ctx.pid || paused || game.dead) return;
+      togglePause();
+    });
 
     ctx.window.setMenu([
       {

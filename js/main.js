@@ -142,6 +142,12 @@ async function main() {
     );
   });
 
+  events.on('prefs:error', () => {
+    dialogs.alert('Your settings could not be saved. They will reset when you reload.', {
+      title: 'Storage problem',
+    });
+  });
+
   const launcher = createLauncher({ el: $('launcher'), processes, launchApp: launch });
   const toggleLauncher = () => launcher.toggle();
   createMenubar({ el: $('menubar'), os, toggleLauncher });
