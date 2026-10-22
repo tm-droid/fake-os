@@ -202,3 +202,12 @@
   border-radius: 12px;
   transition: left 0.12s var(--ease), top 0.12s var(--ease), width 0.12s var(--ease), height 0.12s var(--ease);
 }
+
+/* Launcher hover lift. taskbar.css sets neither transform nor transition on .launcher-item. */
+.launcher-item {
+  transition: transform 0.16s var(--ease);
+}
+
+.launcher-item:hover {
+  transform: translateY(-1px);
+}

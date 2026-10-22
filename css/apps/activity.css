@@ -1,0 +1,102 @@
+/* Activity Monitor: a summary line over a live process table. */
+
+.activity-body {
+  background: var(--window);
+}
+
+.activity-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-summary {
+  flex: none;
+  padding: 10px 16px;
+  border-bottom: 0.5px solid var(--line);
+  background: var(--window-bar-inactive);
+  color: var(--text-2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.activity-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.activity-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.activity-table th {
+  position: sticky;
+  top: 0;
+  padding: 6px 12px;
+  border-bottom: 0.5px solid var(--line);
+  background: var(--window-bar-inactive);
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.activity-table td {
+  padding: 6px 12px;
+  border-bottom: 0.5px solid var(--line);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.activity-table tbody tr:hover td {
+  background: var(--hover);
+}
+
+.activity-table .activity-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The App column takes the leftover width and truncates long names. */
+.activity-table .activity-name {
+  width: 100%;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-table .activity-actions {
+  width: 1%;
+  text-align: right;
+}
+
+.activity-quit {
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--field);
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 0 0 0.5px var(--line), 0 1px 2px rgba(0, 0, 0, 0.08);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.activity-quit:hover {
+  filter: brightness(1.04);
+}
+
+.activity-quit:active {
+  transform: scale(0.97);
+}
+
+.activity-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-3);
+}

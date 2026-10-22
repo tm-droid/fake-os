@@ -144,3 +144,12 @@ test('clear, whoami and help', () => {
   assert.deepEqual(run('whoami').lines, ['guest']);
   assert.ok(run('help').lines.some((line) => line.startsWith('rm') && line.includes('Trash')));
 });
+
+test('date prints one line with the current date and time', () => {
+  const { run } = setup();
+  const out = run('date');
+  assert.equal(out.error, false);
+  assert.equal(out.lines.length, 1);
+  const printed = new Date(out.lines[0]).getTime();
+  assert.ok(Math.abs(printed - Date.now()) < 5000);
+});

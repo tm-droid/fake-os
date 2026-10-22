@@ -112,6 +112,20 @@
   white-space: nowrap;
 }
 
+.notes-state:empty {
+  display: none;
+}
+
+.notes-status-saved {
+  margin-right: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.notes-status-saved.notes-status-shown {
+  opacity: 1;
+}
+
 .notes-empty {
   flex: 1;
   display: flex;

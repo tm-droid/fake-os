@@ -4,6 +4,7 @@ import { glyph } from '../ui/icons.js';
 
 const NOTES_DIR = `${HOME}/Documents/Notes`;
 const SAVE_DELAY = 300;
+const SAVED_FLASH = 1500; // how long "Saved" shows after an autosave
 
 // "Name.ext" -> { stem: "Name", ext: ".ext" }. A name without a dot is all stem.
 function split(name) {
@@ -50,6 +51,7 @@ export default {
             <textarea class="notes-editor" aria-label="Note text"></textarea>
             <footer class="notes-status">
               <span class="notes-state"></span>
+              <span class="notes-status-saved">Saved</span>
               <span class="notes-count"></span>
             </footer>
           </div>
@@ -67,10 +69,12 @@ export default {
     const list = $('.notes-list');
     const stateEl = $('.notes-state');
     const countEl = $('.notes-count');
+    const savedEl = $('.notes-status-saved');
 
     let current = null; // path of the open note, or null
     let dirty = false; // the editor holds text that is not written yet
     let timer = null;
+    let savedTimer = null; // clears the "Saved" flash
     let title = '';
 
     // Notes in the folder, plus the open note when it lives elsewhere.
@@ -121,6 +125,19 @@ export default {
       stateEl.textContent = text;
     }
 
+    // Shows "Saved" after an autosave, then fades it out.
+    function flashSaved() {
+      clearTimeout(savedTimer);
+      savedEl.classList.add('notes-status-shown');
+      savedTimer = setTimeout(hideSaved, SAVED_FLASH);
+    }
+
+    function hideSaved() {
+      clearTimeout(savedTimer);
+      savedTimer = null;
+      savedEl.classList.remove('notes-status-shown');
+    }
+
     function updateCounts() {
       countEl.textContent = countsOf(editor.value);
     }
@@ -133,7 +150,8 @@ export default {
       setState('Saving...');
       try {
         fs.write(current, editor.value);
-        setState('Saved');
+        setState('');
+        flashSaved();
       } catch (err) {
         dirty = true;
         setState('Not saved');
@@ -159,7 +177,7 @@ export default {
       editor.value = text;
       editorWrap.hidden = false;
       empty.hidden = true;
-      setState('Saved');
+      setState('');
       updateCounts();
       refresh();
       editor.focus();
@@ -260,6 +278,7 @@ export default {
     editor.addEventListener('input', () => {
       dirty = true;
       setState('Not saved');
+      hideSaved();
       updateCounts();
       clearTimeout(timer);
       timer = setTimeout(save, SAVE_DELAY);
@@ -308,7 +327,11 @@ export default {
     ]);
 
     ctx.on('fs:change', onFsChange);
-    ctx.window.onClose(save);
+    // save() also clears the autosave timer; hideSaved() clears the flash timer.
+    ctx.window.onClose(() => {
+      save();
+      hideSaved();
+    });
 
     const requested = ctx.args?.path ? normalize(ctx.args.path) : null;
     if (requested && fs.exists(requested) && !fs.isDir(requested)) show(requested);

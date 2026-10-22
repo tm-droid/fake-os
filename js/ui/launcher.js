@@ -20,18 +20,45 @@ export function createLauncher({ el, processes, launchApp }) {
     return processes.apps().filter((app) => !q || app.name.toLowerCase().includes(q));
   }
 
+  // Keyboard highlight: `shown` is what the grid currently holds, `selected` indexes into it.
+  let shown = [];
+  let selected = 0;
+
+  function highlight() {
+    grid.querySelectorAll('.launcher-item').forEach((btn, i) => {
+      btn.classList.toggle('is-selected', i === selected);
+    });
+  }
+
+  function move(step) {
+    if (!shown.length) return;
+    selected = Math.max(0, Math.min(shown.length - 1, selected + step));
+    highlight();
+    grid.querySelector('.launcher-item.is-selected')?.scrollIntoView({ block: 'nearest' });
+  }
+
   function render() {
-    grid.replaceChildren(
-      ...matches().map((app) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'launcher-item';
-        btn.dataset.app = app.id;
-        btn.innerHTML = `${appTile(app, 'is-lg')}<span class="launcher-label"></span>`;
-        btn.querySelector('.launcher-label').textContent = app.name;
-        return btn;
-      }),
-    );
+    shown = matches();
+    selected = 0;
+    if (!shown.length) {
+      const empty = document.createElement('div');
+      empty.className = 'launcher-empty';
+      empty.textContent = 'No apps match';
+      grid.replaceChildren(empty);
+    } else {
+      grid.replaceChildren(
+        ...shown.map((app) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'launcher-item';
+          btn.dataset.app = app.id;
+          btn.innerHTML = `${appTile(app, 'is-lg')}<span class="launcher-label"></span>`;
+          btn.querySelector('.launcher-label').textContent = app.name;
+          return btn;
+        }),
+      );
+    }
+    highlight();
   }
 
   function close() {
@@ -67,9 +94,15 @@ export function createLauncher({ el, processes, launchApp }) {
   input.addEventListener('input', render);
 
   input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      const first = matches()[0];
-      if (first) launchFrom(first.id);
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      move(1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      move(-1);
+    } else if (event.key === 'Enter') {
+      const app = shown[selected];
+      if (app) launchFrom(app.id);
     } else if (event.key === 'Escape') {
       close();
     }
