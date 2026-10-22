@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="FakeOS is a fake operating system that runs entirely in your browser.">
+  <meta name="theme-color" content="#1d1d1f">
+  <title>FakeOS</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a84ff'/%3E%3Crect x='24' y='24' width='22' height='22' rx='5' fill='white'/%3E%3Crect x='54' y='24' width='22' height='22' rx='5' fill='white' opacity='.7'/%3E%3Crect x='24' y='54' width='22' height='22' rx='5' fill='white' opacity='.7'/%3E%3Crect x='54' y='54' width='22' height='22' rx='5' fill='white' opacity='.45'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/shell.css">
+  <link rel="stylesheet" href="css/desktop.css">
+  <link rel="stylesheet" href="css/windows.css">
+  <link rel="stylesheet" href="css/taskbar.css">
+  <link rel="stylesheet" href="css/apps/files.css">
+  <link rel="stylesheet" href="css/apps/notes.css">
+  <link rel="stylesheet" href="css/apps/terminal.css">
+  <link rel="stylesheet" href="css/apps/calculator.css">
+  <link rel="stylesheet" href="css/apps/paint.css">
+  <link rel="stylesheet" href="css/apps/settings.css">
+</head>
+<body>
+  <div id="boot" class="boot"></div>
+  <div id="lock" class="lock" hidden></div>
+
+  <div id="os" class="os" hidden>
+    <header id="menubar" class="menubar"></header>
+    <main id="desktop" class="desktop">
+      <div id="desktop-icons" class="desktop-icons"></div>
+    </main>
+    <div id="windows" class="windows-layer"></div>
+    <div id="launcher" class="launcher" hidden></div>
+    <nav id="taskbar" class="taskbar" aria-label="Taskbar"></nav>
+  </div>
+
+  <div id="overlay-root"></div>
+  <noscript><p class="noscript">FakeOS needs JavaScript to run.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

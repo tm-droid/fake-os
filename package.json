@@ -1,0 +1,11 @@
+{
+  "name": "fake-os",
+  "version": "1.0.0",
+  "description": "A fake operating system that runs entirely in your browser.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test tests/*.test.js"
+  }
+}

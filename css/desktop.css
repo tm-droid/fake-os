@@ -1,0 +1,180 @@
+/* Menubar, desktop surface, desktop icons and marquee selection. */
+
+.os {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Menubar (top) */
+.menubar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 800;
+  height: var(--menubar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border-bottom: 0.5px solid var(--line);
+  font-size: 13px;
+}
+
+.menubar-left,
+.menubar-right {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 100%;
+}
+
+.menubar-btn {
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.menubar-btn:hover,
+.menubar-btn.is-open {
+  background: var(--press);
+}
+
+.menubar-logo {
+  padding: 0 10px;
+}
+
+.menubar-logo .glyph {
+  width: 15px;
+  height: 15px;
+}
+
+.menubar-app {
+  font-weight: 700;
+  padding: 0 8px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-menus {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.menubar-right .glyph {
+  width: 15px;
+  height: 15px;
+}
+
+/* Desktop surface */
+.desktop {
+  position: fixed;
+  inset: 0;
+  background: var(--wallpaper) center / cover no-repeat fixed;
+  color: #fff;
+}
+
+.desktop-icons {
+  position: absolute;
+  top: calc(var(--menubar-h) + 14px);
+  bottom: calc(var(--taskbar-h) + 10px);
+  left: 14px;
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 100px);
+  grid-auto-flow: column;
+  grid-auto-columns: 96px;
+  align-content: start;
+  gap: 2px;
+}
+
+.desk-icon,
+.desk-trash {
+  width: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 8px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.desk-trash {
+  position: absolute;
+  right: 16px;
+  bottom: calc(var(--taskbar-h) + 12px);
+}
+
+.desk-icon.is-selected .desk-label,
+.desk-trash.is-selected .desk-label {
+  background: var(--accent);
+  text-shadow: none;
+}
+
+.desk-label {
+  max-width: 92px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+  word-break: break-word;
+  color: #fff;
+}
+
+.file-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.file-icon .glyph {
+  width: 28px;
+  height: 28px;
+}
+
+.file-icon.kind-folder {
+  background: linear-gradient(#7fd3ff, #0a84ff);
+}
+
+.file-icon.kind-doc {
+  background: linear-gradient(#ffffff, #dcdce2);
+  color: #5a5a62;
+}
+
+.file-icon.kind-image {
+  background: linear-gradient(#ffd98a, #ff9f0a);
+}
+
+.file-icon.kind-trash {
+  background: linear-gradient(#e5e5ea, #8e8e93);
+  color: #3a3a40;
+}
+
+.desk-icon.is-selected .file-icon {
+  filter: brightness(0.92);
+}
+
+.marquee {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  border: 1px solid var(--accent);
+  background: rgba(10, 132, 255, 0.2);
+  border-radius: 2px;
+}

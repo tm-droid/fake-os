@@ -1,0 +1,311 @@
+/* Boot splash, lock screen, dialogs and popup menus. */
+
+/* Boot */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #000;
+  transition: opacity 0.5s var(--ease);
+}
+
+.boot.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boot-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  color: #fff;
+}
+
+.boot-logo .glyph {
+  width: 76px;
+  height: 76px;
+  color: #fff;
+  animation: boot-breathe 1.6s ease-in-out infinite;
+}
+
+.boot-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+.boot-bar {
+  width: 150px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.boot-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #fff;
+  border-radius: 4px;
+  animation: boot-progress 1.6s var(--ease) forwards;
+}
+
+@keyframes boot-progress {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes boot-breathe {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Lock screen */
+.lock {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #fff;
+  background: var(--wallpaper) center / cover no-repeat;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  transition: opacity 0.45s var(--ease);
+}
+
+.lock::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+.lock > * {
+  position: relative;
+}
+
+.lock.is-unlocking {
+  opacity: 0;
+}
+
+.lock-time {
+  font-size: 76px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.lock-date {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.lock-user {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+}
+
+.lock-avatar {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  font-weight: 600;
+  background: linear-gradient(#8fd3ff, #0a84ff);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lock-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.lock-hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+/* Buttons */
+.btn {
+  min-width: 84px;
+  padding: 5px 14px;
+  border-radius: 6px;
+  background: var(--field);
+  box-shadow: 0 0 0 0.5px var(--line), 0 1px 2px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  filter: brightness(1.04);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: none;
+}
+
+.btn.destructive {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+}
+
+/* Dialogs */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.18);
+  animation: fade-in 0.15s ease-out;
+}
+
+.dialog {
+  width: min(340px, calc(100vw - 32px));
+  padding: 18px 18px 14px;
+  border-radius: 14px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(30px) saturate(1.6);
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  box-shadow: var(--shadow-menu);
+  animation: pop-in 0.18s var(--ease);
+}
+
+.dialog-title {
+  margin: 4px 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.dialog-message {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-2);
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.dialog-input {
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--field);
+  box-shadow: 0 0 0 0.5px var(--line) inset;
+  outline: none;
+}
+
+.dialog-input:focus {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Popup menus: right-click menus and the menubar dropdowns */
+.menu {
+  position: fixed;
+  z-index: 1500;
+  min-width: 200px;
+  padding: 5px;
+  border-radius: 10px;
+  background: var(--glass-strong);
+  backdrop-filter: blur(30px) saturate(1.6);
+  -webkit-backdrop-filter: blur(30px) saturate(1.6);
+  box-shadow: var(--shadow-menu);
+  animation: pop-in 0.14s var(--ease);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  width: 100%;
+  padding: 4px 12px 4px 10px;
+  border-radius: 5px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.menu-item:hover:not(:disabled),
+.menu-item:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+  outline: none;
+}
+
+.menu-item:disabled {
+  opacity: 0.4;
+}
+
+.menu-item.is-danger {
+  color: var(--danger);
+}
+
+.menu-item.is-danger:hover:not(:disabled) {
+  color: #fff;
+  background: var(--danger);
+}
+
+.menu-shortcut {
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.menu-sep {
+  height: 1px;
+  margin: 5px 6px;
+  background: var(--line);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}

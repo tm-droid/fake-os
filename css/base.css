@@ -1,0 +1,155 @@
+/* Design tokens, reset and element defaults. Components read tokens, never raw colors. */
+:root {
+  color-scheme: light;
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --menubar-h: 28px;
+  --taskbar-h: 62px;
+  --titlebar-h: 36px;
+
+  --accent: #0a84ff;
+  --accent-ink: #ffffff;
+  --text: #1d1d1f;
+  --text-2: rgba(60, 60, 67, 0.72);
+  --text-3: rgba(60, 60, 67, 0.46);
+  --line: rgba(0, 0, 0, 0.1);
+  --glass: rgba(246, 246, 248, 0.72);
+  --glass-strong: rgba(250, 250, 252, 0.94);
+  --window: #ffffff;
+  --window-bar: #e9e9ed;
+  --window-bar-inactive: #f3f3f6;
+  --field: #ffffff;
+  --hover: rgba(0, 0, 0, 0.05);
+  --press: rgba(0, 0, 0, 0.1);
+  --selected: rgba(10, 132, 255, 0.16);
+  --shadow-window: 0 24px 60px rgba(0, 0, 0, 0.32), 0 0 0 0.5px rgba(0, 0, 0, 0.42);
+  --shadow-menu: 0 12px 36px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.18);
+  --radius-window: 12px;
+  --radius: 8px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --traffic-close: #ff5f57;
+  --traffic-min: #febc2e;
+  --traffic-zoom: #28c840;
+  --danger: #ff3b30;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #f5f5f7;
+  --text-2: rgba(235, 235, 245, 0.72);
+  --text-3: rgba(235, 235, 245, 0.42);
+  --line: rgba(255, 255, 255, 0.12);
+  --glass: rgba(40, 40, 44, 0.7);
+  --glass-strong: rgba(42, 42, 46, 0.94);
+  --window: #1e1e21;
+  --window-bar: #2c2c30;
+  --window-bar-inactive: #242427;
+  --field: #2a2a2e;
+  --hover: rgba(255, 255, 255, 0.08);
+  --press: rgba(255, 255, 255, 0.14);
+  --selected: rgba(10, 132, 255, 0.36);
+  --shadow-window: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+  --shadow-menu: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  background: #000;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: default;
+}
+
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.glyph {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  display: block;
+}
+
+.noscript {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: #000;
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.45);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}

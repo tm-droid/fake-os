@@ -1,0 +1,128 @@
+/* Notes: sidebar of notes, autosaving editor, status bar. */
+
+.notes-app {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  color: var(--text);
+}
+
+.notes-sidebar {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  padding: 12px 10px 10px;
+  background: var(--window-bar-inactive);
+  border-right: 0.5px solid var(--line);
+}
+
+.notes-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.notes-new {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.notes-delete {
+  flex: none;
+  min-width: 0;
+  width: 36px;
+  padding: 5px 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+}
+
+.notes-list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.notes-item {
+  display: block;
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-item:hover {
+  background: var(--hover);
+}
+
+.notes-item.is-selected {
+  background: var(--selected);
+  font-weight: 600;
+}
+
+.notes-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-editor-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-editor {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  padding: 16px 20px;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: var(--window);
+  color: var(--text);
+  font: 14px/1.55 var(--font);
+}
+
+.notes-status {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 14px;
+  border-top: 0.5px solid var(--line);
+  color: var(--text-3);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.notes-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  color: var(--text-2);
+}
+
+.notes-empty-text {
+  margin: 0;
+}
