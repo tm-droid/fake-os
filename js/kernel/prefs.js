@@ -161,7 +161,8 @@ export function createPrefs({ storage = defaultStorage, events = defaultEvents, 
 
   function set(patch) {
     current = sanitize({ ...current, ...patch });
-    storage.set(key, current);
+    const result = storage.set(key, current);
+    if (!result.ok) events.emit('prefs:error', { reason: result.reason });
     events.emit('prefs:change', get());
     return get();
   }

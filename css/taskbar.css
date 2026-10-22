@@ -26,8 +26,8 @@
   display: grid;
   place-items: center;
   color: #fff;
-  background: linear-gradient(#5ac8fa, #0a84ff);
-  box-shadow: 0 2px 8px rgba(10, 132, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(color-mix(in srgb, var(--accent), #fff 35%), var(--accent));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 35%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition: transform 0.12s var(--ease);
 }
 

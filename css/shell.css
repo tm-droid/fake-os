@@ -131,7 +131,7 @@
   place-items: center;
   font-size: 32px;
   font-weight: 600;
-  background: linear-gradient(#8fd3ff, #0a84ff);
+  background: linear-gradient(color-mix(in srgb, var(--accent), #fff 35%), var(--accent));
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 

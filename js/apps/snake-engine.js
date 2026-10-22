@@ -11,7 +11,7 @@ const OPPOSITE = { up: 'down', down: 'up', left: 'right', right: 'left' };
 
 // Builds one game. rng picks food cells, so a seeded rng replays a game exactly.
 export function createSnake({ cols = 20, rows = 20, rng = Math.random, initialLength = 3 } = {}) {
-  let pending = null; // turn queued for the next step, at most one
+  let queue = []; // turns queued for the coming steps, at most two
 
   const game = {
     snake: [], // cells, head first
@@ -23,10 +23,7 @@ export function createSnake({ cols = 20, rows = 20, rng = Math.random, initialLe
     // Moves one cell along the queued or current heading.
     step() {
       if (game.dead) return;
-      if (pending !== null) {
-        game.dir = pending;
-        pending = null;
-      }
+      if (queue.length > 0) game.dir = queue.shift();
       const { x: dx, y: dy } = DIRS[game.dir];
       const head = game.snake[0];
       const next = { x: head.x + dx, y: head.y + dy };
@@ -50,12 +47,14 @@ export function createSnake({ cols = 20, rows = 20, rng = Math.random, initialLe
       }
     },
 
-    // Queues a turn for the next step. Returns false when the turn is ignored.
+    // Queues a turn for a later step. Returns false when the turn is ignored.
     turn(name) {
       if (!Object.hasOwn(DIRS, name)) return false;
-      if (pending !== null) return false; // one turn per step
-      if (name === game.dir || name === OPPOSITE[game.dir]) return false; // no 180 reversal
-      pending = name;
+      if (queue.length >= 2) return false; // at most two turns wait
+      // Reversal is checked against the last queued heading, not the current one.
+      const heading = queue.at(-1) ?? game.dir;
+      if (name === heading || name === OPPOSITE[heading]) return false; // no 180 reversal
+      queue.push(name);
       return true;
     },
 
@@ -67,7 +66,7 @@ export function createSnake({ cols = 20, rows = 20, rng = Math.random, initialLe
       game.dir = 'right';
       game.score = 0;
       game.dead = false;
-      pending = null;
+      queue = [];
       game.food = placeFood();
     },
   };

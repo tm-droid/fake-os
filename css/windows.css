@@ -24,6 +24,11 @@
     opacity 0.16s ease, transform 0.16s var(--ease);
 }
 
+/* The root takes focus so keys reach the window. Children keep their own focus rings. */
+.window:focus {
+  outline: none;
+}
+
 .window.is-dragging,
 .window.is-resizing {
   transition: none;
@@ -197,8 +202,8 @@
   position: absolute;
   z-index: 500;
   pointer-events: none;
-  background: rgba(10, 132, 255, 0.16);
-  border: 2px solid rgba(10, 132, 255, 0.6);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
   border-radius: 12px;
   transition: left 0.12s var(--ease), top 0.12s var(--ease), width 0.12s var(--ease), height 0.12s var(--ease);
 }

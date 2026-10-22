@@ -164,6 +164,12 @@ async function main() {
     );
   });
 
+  events.on('prefs:error', () => {
+    dialogs.alert('Your settings could not be saved. They will reset when you reload.', {
+      title: 'Storage problem',
+    });
+  });
+
   // Removing an app closes its windows; either change tells the user what happened.
   events.on('apps:installed', ({ id, installed }) => {
     if (!installed) {

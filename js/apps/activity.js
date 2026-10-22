@@ -1,13 +1,14 @@
 // Activity Monitor window: a live table of running processes, refreshed each second.
 // Rows are keyed by pid, so a Quit button keeps focus between refreshes.
+import { pad2 } from './clock-engine.js';
 
 // Uptime as m:ss, or h:mm:ss once it passes an hour.
 function formatUptime(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
-  const seconds = String(total % 60).padStart(2, '0');
-  if (hours > 0) return `${hours}:${String(minutes).padStart(2, '0')}:${seconds}`;
+  const seconds = pad2(total % 60);
+  if (hours > 0) return `${hours}:${pad2(minutes)}:${seconds}`;
   return `${minutes}:${seconds}`;
 }
 
@@ -67,6 +68,7 @@ export default {
         const pid = proc.pid;
         const quit = make('button', 'activity-quit', 'Quit');
         quit.type = 'button';
+        quit.setAttribute('aria-label', `Quit ${proc.title || proc.appId}`);
         quit.addEventListener('click', () => {
           ctx.processes.stop(pid);
           render();

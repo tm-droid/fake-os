@@ -143,6 +143,12 @@ export function createWindowManager({ layer, events = defaultEvents, minWidth = 
       focusedId = id;
       events.emit('win:focus', describe(win));
     }
+    // Keyboard focus goes to the last control used in this window, or to the window itself.
+    if (!win.minimized && !win.el.hidden) {
+      const last = win.lastFocused;
+      const target = last?.isConnected && win.el.contains(last) ? last : win.el;
+      target.focus({ preventScroll: true });
+    }
   }
 
   // After a window closes or minimizes, focus the frontmost window that is still on screen.
@@ -285,6 +291,7 @@ export function createWindowManager({ layer, events = defaultEvents, minWidth = 
     el.className = 'window is-opening';
     el.dataset.windowId = String(id);
     el.setAttribute('aria-label', title);
+    el.setAttribute('tabindex', '-1');
     el.innerHTML = `
       <header class="window-titlebar">
         <div class="traffic">
@@ -311,6 +318,7 @@ export function createWindowManager({ layer, events = defaultEvents, minWidth = 
       state: 'normal',
       rect: openRect(opts.width ?? 640, opts.height ?? 440),
       restore: null,
+      lastFocused: null,
       minimized: false,
       resizable,
       minWidth: opts.minWidth ?? minWidth,
@@ -347,8 +355,17 @@ export function createWindowManager({ layer, events = defaultEvents, minWidth = 
       if (event.target === el) el.classList.remove('is-opening');
     });
     el.addEventListener('pointerdown', () => focus(id), true);
+    // Remember the control the user last used in this window, so focus() can return to it.
+    // Titlebar buttons are skipped, so a restored focus never lands on Minimize or Close.
+    el.addEventListener('focusin', (event) => {
+      if (event.target !== el && !event.target.closest('.window-titlebar')) win.lastFocused = event.target;
+    });
 
     const bar = el.querySelector('.window-titlebar');
+    // Clicking the titlebar must not move focus to the window root, or keys stop reaching the app.
+    bar.addEventListener('mousedown', (event) => {
+      if (!event.target.closest('.traffic-btn')) event.preventDefault();
+    });
     bar.addEventListener('pointerdown', (event) => {
       if (event.button !== 0 || event.target.closest('.traffic-btn') || narrow()) return;
       startDrag(win, event);

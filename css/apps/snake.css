@@ -1,8 +1,13 @@
 /* Snake: a score header over a square board. The board is a canvas that snake.js draws. */
 
 .snake-body {
-  outline: none;
   background: var(--window-bar-inactive);
+}
+
+/* Keyboard focus ring. Inset, because .window clips an outline drawn past its edge. */
+.snake-body:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .snake-app {

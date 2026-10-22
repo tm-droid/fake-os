@@ -121,10 +121,12 @@ export default {
       );
     }
 
-    // Shows one tab and hides the rest.
+    // Shows one tab and hides the rest. The selected tab is the one the Tab key reaches.
     function select(name) {
       for (const tab of body.querySelectorAll('.clock-tab')) {
-        tab.setAttribute('aria-selected', String(tab.dataset.tab === name));
+        const selected = tab.dataset.tab === name;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
       }
       for (const panel of body.querySelectorAll('[data-panel]')) {
         panel.hidden = panel.dataset.panel !== name;
@@ -132,9 +134,25 @@ export default {
       redraw();
     }
 
-    for (const tab of body.querySelectorAll('.clock-tab')) {
+    const tabs = [...body.querySelectorAll('.clock-tab')];
+    for (const tab of tabs) {
       tab.addEventListener('click', () => select(tab.dataset.tab));
     }
+
+    // Arrow keys wrap between tabs, and Home and End jump to the ends. The tab reached is selected.
+    body.querySelector('.clock-tabs').addEventListener('keydown', (event) => {
+      const current = tabs.indexOf(event.target);
+      if (current === -1) return;
+      let next;
+      if (event.key === 'ArrowLeft') next = (current + tabs.length - 1) % tabs.length;
+      else if (event.key === 'ArrowRight') next = (current + 1) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      tabs[next].focus();
+      select(tabs[next].dataset.tab);
+    });
 
     stopwatchToggle.addEventListener('click', () => {
       if (stopwatch.running) stopwatch.pause();

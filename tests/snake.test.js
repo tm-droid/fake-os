@@ -109,7 +109,30 @@ test('checks reversal against the heading after a turn', () => {
   assert.deepEqual(game.snake[0], { x: 10, y: 8 });
 });
 
-test('queues at most one turn per step', () => {
+test('queues at most two turns per step', () => {
+  const game = createSnake({ rng: () => 0 });
+  assert.equal(game.turn('up'), true);
+  assert.equal(game.turn('left'), true);
+  assert.equal(game.turn('down'), false);
+  game.step();
+  assert.equal(game.dir, 'up');
+  assert.deepEqual(game.snake[0], { x: 10, y: 9 });
+});
+
+test('applies two quick turns queued before one step across two steps', () => {
+  const game = createSnake({ rng: () => 0 });
+  assert.equal(game.turn('up'), true);
+  // Left reverses the current heading, but the queued up is the last heading, so it is a legal turn.
+  assert.equal(game.turn('left'), true);
+  game.step();
+  assert.equal(game.dir, 'up');
+  assert.deepEqual(game.snake[0], { x: 10, y: 9 });
+  game.step();
+  assert.equal(game.dir, 'left');
+  assert.deepEqual(game.snake[0], { x: 9, y: 9 });
+});
+
+test('rejects a reversal of a queued turn', () => {
   const game = createSnake({ rng: () => 0 });
   assert.equal(game.turn('up'), true);
   assert.equal(game.turn('down'), false);
