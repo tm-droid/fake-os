@@ -250,3 +250,17 @@
   font-size: 12px;
   font-weight: 500;
 }
+
+/* Keyboard highlight (arrow keys) and the "No apps match" message */
+.launcher-item.is-selected {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+
+.launcher-empty {
+  grid-column: 1 / -1;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-2);
+}

@@ -18,9 +18,12 @@ import terminalApp from './apps/terminal.js';
 import calculatorApp from './apps/calculator.js';
 import paintApp from './apps/paint.js';
 import settingsApp from './apps/settings.js';
+import snakeApp from './apps/snake.js';
+import clockApp from './apps/clock.js';
+import activityApp from './apps/activity.js';
 
 const $ = (id) => document.getElementById(id);
-const APPS = [filesApp, notesApp, terminalApp, calculatorApp, paintApp, settingsApp];
+const APPS = [filesApp, notesApp, terminalApp, calculatorApp, paintApp, settingsApp, snakeApp, clockApp, activityApp];
 
 function applyPrefs(prefs) {
   const root = document.documentElement;
