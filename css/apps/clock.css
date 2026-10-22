@@ -161,3 +161,47 @@
   font-weight: 500;
   color: var(--danger);
 }
+
+/* Polish: pill tabs, glassy panels, glowing digits. */
+.clock-tabs {
+  background: var(--hover);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.clock-tab {
+  border-radius: 999px;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.clock-panel {
+  background: radial-gradient(120% 80% at 50% 0%, var(--selected) 0%, transparent 60%);
+}
+
+.clock-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 18px var(--selected);
+}
+
+.clock-button {
+  border-radius: 999px;
+  transition: transform 0.08s var(--ease), filter 0.15s var(--ease);
+}
+
+.clock-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.clock-button.is-primary {
+  box-shadow: 0 4px 14px rgba(10, 132, 255, 0.35);
+}
+
+.clock-lap {
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-lap:nth-child(odd) {
+  background: var(--hover);
+}

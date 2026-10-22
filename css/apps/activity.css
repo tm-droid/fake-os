@@ -100,3 +100,41 @@
   text-align: center;
   color: var(--text-3);
 }
+
+/* Polish: zebra rows, sticky blurred header, summary cards. */
+.activity-table tbody tr:nth-child(even) {
+  background: var(--hover);
+}
+
+.activity-table tbody tr {
+  transition: background 0.1s var(--ease);
+}
+
+.activity-table tbody tr:hover {
+  background: var(--selected);
+}
+
+.activity-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--glass-strong);
+  backdrop-filter: blur(12px);
+  z-index: 1;
+}
+
+.activity-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.activity-summary {
+  background: linear-gradient(180deg, var(--window-bar), var(--window-bar-inactive));
+}
+
+.activity-quit {
+  transition: background 0.12s var(--ease), color 0.12s var(--ease);
+}
+
+.activity-quit:hover {
+  background: var(--danger);
+  color: #fff;
+}

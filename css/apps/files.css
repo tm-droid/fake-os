@@ -339,3 +339,41 @@
     display: none;
   }
 }
+
+/* Polish: glass sidebar, accent selection pill, lifted tiles. */
+.files-sidebar {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.6);
+}
+
+.files-side-item {
+  border-radius: 6px;
+  transition: background 0.12s var(--ease);
+}
+
+.files-side-item.is-active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.files-tile {
+  border-radius: 10px;
+  transition: background 0.12s var(--ease), transform 0.12s var(--ease);
+}
+
+.files-tile:hover {
+  background: var(--hover);
+  transform: translateY(-1px);
+}
+
+.files-row {
+  transition: background 0.1s var(--ease);
+}
+
+.files-row:hover {
+  background: var(--hover);
+}
+
+.files-toolbar {
+  background: linear-gradient(180deg, var(--window-bar), var(--window-bar-inactive));
+}

@@ -60,3 +60,29 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
+
+/* Polish: arcade-dark board with glow, pill stat badges. */
+.snake-body {
+  background: radial-gradient(120% 90% at 50% 0%, #1b2a1f 0%, #0d120f 70%);
+}
+
+.snake-header {
+  color: #e8f5ea;
+}
+
+.snake-stat {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.snake-canvas {
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.35), 0 0 32px rgba(52, 199, 89, 0.18);
+}
+
+.snake-overlay {
+  backdrop-filter: blur(6px);
+  color: #e8f5ea;
+}

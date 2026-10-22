@@ -140,3 +140,39 @@
 .notes-empty-text {
   margin: 0;
 }
+
+/* Polish: warm paper editor, card list items. */
+.notes-sidebar {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.6);
+}
+
+.notes-item {
+  border-radius: 8px;
+  margin: 2px 6px;
+  transition: background 0.12s var(--ease);
+}
+
+.notes-item.is-selected {
+  background: linear-gradient(180deg, #ffd65a, #f5c518);
+  color: #1d1d1f;
+}
+
+.notes-editor {
+  font-size: 15px;
+  line-height: 1.65;
+  padding: 24px 28px;
+  caret-color: #f5c518;
+}
+
+.notes-editor::selection {
+  background: rgba(245, 197, 24, 0.35);
+}
+
+.notes-new {
+  transition: transform 0.08s var(--ease);
+}
+
+.notes-new:active {
+  transform: scale(0.92);
+}
