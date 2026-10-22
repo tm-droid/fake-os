@@ -23,11 +23,13 @@ export function runBoot({ bootEl, lockEl }) {
       lockEl.innerHTML = `
         <div class="lock-time"></div>
         <div class="lock-date"></div>
-        <button type="button" class="lock-user" aria-label="Log in as Guest">
-          <span class="lock-avatar">G</span>
-          <span class="lock-name">Guest</span>
-        </button>
-        <p class="lock-hint">Click or press Return to log in</p>`;
+        <div class="lock-card">
+          <button type="button" class="lock-user" aria-label="Log in as Guest">
+            <span class="lock-avatar">G</span>
+            <span class="lock-name">Guest</span>
+          </button>
+          <p class="lock-hint">Click or press Return to log in</p>
+        </div>`;
       lockEl.hidden = false;
 
       const timeFmt = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });

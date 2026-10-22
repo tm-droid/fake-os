@@ -80,14 +80,16 @@
   color: #fff;
   background: var(--wallpaper) center / cover no-repeat;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-  transition: opacity 0.45s var(--ease);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease), filter 0.45s var(--ease);
 }
 
 .lock::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.12);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.42) 100%);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
   pointer-events: none;
 }
 
@@ -97,11 +99,14 @@
 
 .lock.is-unlocking {
   opacity: 0;
+  transform: scale(1.04);
+  filter: blur(10px);
 }
 
 .lock-time {
-  font-size: 76px;
+  font-size: 96px;
   font-weight: 200;
+  animation: lock-rise 0.6s var(--ease) both;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -112,27 +117,47 @@
   font-weight: 500;
   text-align: center;
   margin-top: 6px;
+  animation: lock-rise 0.6s var(--ease) 0.08s both;
+}
+
+.lock-card {
+  margin-top: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 34px 18px;
+  border-radius: 22px;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 30px rgba(0, 0, 0, 0.22);
+  animation: lock-rise 0.6s var(--ease) 0.2s both;
 }
 
 .lock-user {
-  margin-top: 38px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   color: #fff;
+  transition: transform 0.2s var(--ease);
+}
+
+.lock-user:hover {
+  transform: translateY(-2px);
 }
 
 .lock-avatar {
-  width: 78px;
-  height: 78px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 600;
   background: linear-gradient(#8fd3ff, #0a84ff);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22), 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .lock-name {
@@ -141,9 +166,25 @@
 }
 
 .lock-hint {
-  margin: 14px 0 0;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
   font-size: 12px;
-  opacity: 0.75;
+  background: rgba(255, 255, 255, 0.14);
+  animation: hint-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes lock-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes hint-pulse {
+  50% {
+    opacity: 0.55;
+  }
 }
 
 /* Buttons */
