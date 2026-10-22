@@ -1,0 +1,608 @@
+/* Browser: a tab strip, a toolbar with the address bar, a bookmarks bar, and the page view. */
+
+.browser-body {
+  outline: none;
+  background: var(--window);
+}
+
+.browser-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.browser-icon-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--text-2);
+}
+
+.browser-icon-btn .glyph {
+  width: 16px;
+  height: 16px;
+}
+
+.browser-icon-btn:hover:not(:disabled) {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.browser-icon-btn:active:not(:disabled) {
+  background: var(--press);
+}
+
+.browser-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Tabs */
+
+.browser-tabs {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 6px 8px 0;
+  background: var(--window-bar);
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.browser-tablist {
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+
+.browser-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 200px;
+  min-width: 60px;
+  height: 30px;
+  padding: 0 6px 0 10px;
+  border-radius: 8px 8px 0 0;
+  color: var(--text-2);
+  font-size: 12px;
+  cursor: default;
+  user-select: none;
+}
+
+.browser-tab:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.browser-tab.is-active {
+  background: var(--window);
+  color: var(--text);
+  box-shadow: 0 -0.5px 0 var(--line), 0.5px 0 0 var(--line), -0.5px 0 0 var(--line);
+}
+
+.browser-tab-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browser-favicon,
+.browser-tab-icon {
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+
+.browser-tab-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  color: var(--text-3);
+  opacity: 0;
+}
+
+.browser-tab:hover .browser-tab-close,
+.browser-tab.is-active .browser-tab-close {
+  opacity: 1;
+}
+
+.browser-tab-close:hover {
+  background: var(--press);
+  color: var(--text);
+}
+
+.browser-tab-close .glyph {
+  width: 11px;
+  height: 11px;
+}
+
+.browser-newtab {
+  margin-bottom: 1px;
+}
+
+.browser-spinner {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  animation: browser-spin 0.7s linear infinite;
+}
+
+@keyframes browser-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Toolbar */
+
+.browser-toolbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: var(--window);
+}
+
+.browser-address {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  margin: 0 6px;
+  padding: 0 2px 0 10px;
+  border-radius: 15px;
+  background: var(--hover);
+  border: 1px solid transparent;
+}
+
+.browser-address:focus-within {
+  background: var(--field);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--selected);
+}
+
+.browser-lock {
+  flex: none;
+  display: grid;
+  color: var(--text-3);
+}
+
+.browser-lock .glyph {
+  width: 14px;
+  height: 14px;
+}
+
+.browser-url {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.browser-url::placeholder {
+  color: var(--text-3);
+}
+
+.browser-star.is-on {
+  color: #ffb800;
+}
+
+.browser-star.is-on .glyph {
+  fill: currentColor;
+}
+
+/* Bookmarks bar */
+
+.browser-bookmarks {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+  padding: 0 8px 4px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.browser-bookmark {
+  flex: none;
+  max-width: 160px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 5px;
+  color: var(--text-2);
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browser-bookmark:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.browser-bookmarks-empty {
+  color: var(--text-3);
+  font-size: 11.5px;
+  padding-left: 4px;
+}
+
+/* Progress bar under the toolbar */
+
+.browser-progress {
+  flex: none;
+  height: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.browser-progress.is-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: var(--accent);
+  animation: browser-progress 1.1s var(--ease) infinite;
+}
+
+@keyframes browser-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+/* Page view */
+
+.browser-view {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.browser-page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.browser-page.is-internal {
+  background: var(--window);
+  overflow: auto;
+}
+
+.browser-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.browser-notice {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--glass-strong);
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 12px;
+}
+
+.browser-page.is-slow .browser-notice {
+  background: var(--selected);
+  color: var(--text);
+}
+
+.browser-notice span {
+  flex: 1;
+  min-width: 0;
+}
+
+.browser-notice a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.browser-notice-close {
+  display: grid;
+  color: var(--text-3);
+}
+
+.browser-notice-close .glyph {
+  width: 12px;
+  height: 12px;
+}
+
+/* New tab page */
+
+.browser-home {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px 20px;
+  background: radial-gradient(circle at 50% 0%, var(--selected), transparent 60%);
+}
+
+.browser-home-logo {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(#5ac8fa, #0a5bd8);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(10, 91, 216, 0.35);
+}
+
+.browser-home-logo .glyph {
+  width: 36px;
+  height: 36px;
+}
+
+.browser-home-greeting {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.browser-home-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(560px, 100%);
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 22px;
+  background: var(--field);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  color: var(--text-3);
+}
+
+.browser-home-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--selected);
+}
+
+.browser-home-search .glyph {
+  width: 18px;
+  height: 18px;
+}
+
+.browser-home-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.browser-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 96px);
+  justify-content: center;
+  gap: 10px;
+  width: min(640px, 100%);
+}
+
+.browser-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 6px;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 12px;
+  transition: background 0.15s, transform 0.15s var(--ease);
+}
+
+.browser-tile:hover {
+  background: var(--hover);
+  transform: translateY(-2px);
+}
+
+.browser-tile-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--hover);
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.browser-tile-icon img,
+.browser-tile-icon .glyph {
+  width: 22px;
+  height: 22px;
+}
+
+.browser-tile-label {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* History, bookmarks and about pages */
+
+.browser-doc {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  color: var(--text);
+}
+
+.browser-doc h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.browser-doc h2 {
+  margin: 20px 0 8px;
+  font-size: 15px;
+}
+
+.browser-doc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.browser-button {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background: var(--hover);
+  color: var(--text);
+  font-size: 12.5px;
+}
+
+.browser-button:hover {
+  background: var(--press);
+}
+
+.browser-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.browser-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.browser-row:hover {
+  background: var(--hover);
+}
+
+.browser-row-time {
+  flex: none;
+  width: 110px;
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+.browser-row-link {
+  flex: none;
+  max-width: 45%;
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browser-row-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.browser-row-url {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-3);
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browser-empty {
+  padding: 24px 10px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.browser-about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.browser-about p {
+  margin: 6px 0;
+  color: var(--text-2);
+}
+
+.browser-keys {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 6px 16px;
+  margin: 0;
+  font-size: 13px;
+  text-align: left;
+}
+
+.browser-keys dt {
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.browser-keys dd {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.browser-muted {
+  margin-top: 18px !important;
+  font-size: 12px;
+  color: var(--text-3) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .browser-spinner,
+  .browser-progress.is-loading::after {
+    animation-duration: 2.5s;
+  }
+}
