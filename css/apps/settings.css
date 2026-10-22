@@ -177,3 +177,43 @@
 .settings-reset {
   margin-top: 22px;
 }
+
+/* Polish: inset grouped cards and accent sidebar selection, macOS-style. */
+.settings-sidebar {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.6);
+}
+
+.settings-nav-item {
+  border-radius: 6px;
+  transition: background 0.12s var(--ease);
+}
+
+.settings-nav-item.is-selected {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.settings-group {
+  background: var(--field);
+  border-radius: 10px;
+  box-shadow: 0 0 0 0.5px var(--line), 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.settings-row + .settings-row {
+  border-top: 0.5px solid var(--line);
+}
+
+.settings-swatch {
+  transition: transform 0.12s var(--ease);
+}
+
+.settings-swatch:hover {
+  transform: scale(1.12);
+}
+
+.settings-wallpaper-preview {
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}

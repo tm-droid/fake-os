@@ -108,3 +108,38 @@
   cursor: crosshair;
   touch-action: none;
 }
+
+/* Polish: checkerboard stage, round swatches with active ring, raised canvas. */
+.paint-stage {
+  background:
+    repeating-conic-gradient(var(--hover) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px,
+    var(--window-bar-inactive);
+}
+
+.paint-canvas {
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), 0 0 0 0.5px var(--line);
+}
+
+.paint-swatch {
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--line) inset;
+  transition: transform 0.12s var(--ease);
+}
+
+.paint-swatch:hover {
+  transform: scale(1.15);
+}
+
+.paint-tool {
+  border-radius: 8px;
+  transition: background 0.12s var(--ease), transform 0.08s var(--ease);
+}
+
+.paint-tool:active {
+  transform: scale(0.92);
+}
+
+.paint-toolbar {
+  background: linear-gradient(180deg, var(--window-bar), var(--window-bar-inactive));
+}

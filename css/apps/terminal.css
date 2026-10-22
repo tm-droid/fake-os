@@ -55,3 +55,28 @@
   font: inherit;
   caret-color: #e5e5e5;
 }
+
+/* Polish: deep translucent background, green prompt, glowing caret. */
+.terminal-app {
+  background: linear-gradient(180deg, rgba(18, 20, 24, 0.97), rgba(10, 11, 14, 0.97));
+  color: #d7dae0;
+}
+
+.terminal-prompt,
+.terminal-line-prompt {
+  color: #32d74b;
+  font-weight: 600;
+}
+
+.terminal-input {
+  caret-color: #32d74b;
+}
+
+.terminal-line {
+  line-height: 1.5;
+}
+
+.terminal-scrollback::selection,
+.terminal-line::selection {
+  background: rgba(50, 215, 75, 0.3);
+}
