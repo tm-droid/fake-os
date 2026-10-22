@@ -237,12 +237,8 @@ export default {
       tab.loading = true;
       const frame = document.createElement('iframe');
       frame.className = 'browser-frame';
-      // A same-origin page with both allow-scripts and allow-same-origin could reach into FakeOS, so it gets neither origin.
-      const sameOrigin = new URL(url).origin === location.origin;
-      frame.setAttribute(
-        'sandbox',
-        `allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox${sameOrigin ? '' : ' allow-same-origin'}`,
-      );
+      // No allow-same-origin: a page redirected onto the FakeOS origin must not keep that origin.
+      frame.setAttribute('sandbox', 'allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox');
       frame.setAttribute('referrerpolicy', 'no-referrer');
       frame.setAttribute('allow', 'fullscreen');
       frame.title = displayTitle(url);
