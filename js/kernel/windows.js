@@ -362,6 +362,10 @@ export function createWindowManager({ layer, events = defaultEvents, minWidth = 
     });
 
     const bar = el.querySelector('.window-titlebar');
+    // Clicking the titlebar must not move focus to the window root, or keys stop reaching the app.
+    bar.addEventListener('mousedown', (event) => {
+      if (!event.target.closest('.traffic-btn')) event.preventDefault();
+    });
     bar.addEventListener('pointerdown', (event) => {
       if (event.button !== 0 || event.target.closest('.traffic-btn') || narrow()) return;
       startDrag(win, event);
