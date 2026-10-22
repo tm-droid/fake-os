@@ -30,6 +30,12 @@ const GLYPHS = {
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   snake: '<path d="M4.5 17.5c2.5 0 2.6-5 5.2-5h4.6c2.6 0 2.7-5 5.2-5"/><circle cx="19.5" cy="7.5" r="1.1" fill="currentColor"/>',
   activity: '<path d="M3 12h4l2.6-5.5 4.2 11 2.6-5.5H21"/>',
+  globe: '<circle cx="12" cy="12" r="8.8"/><path d="M3.2 12h17.6M12 3.2c2.4 2.4 3.6 5.3 3.6 8.8s-1.2 6.4-3.6 8.8c-2.4-2.4-3.6-5.3-3.6-8.8s1.2-6.4 3.6-8.8z"/>',
+  refresh: '<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4.2h-4.2"/>',
+  home: '<path d="M4 11l8-6.5 8 6.5"/><path d="M6.5 9.5v10h11v-10"/><path d="M10 19.5v-5h4v5"/>',
+  star: '<path d="M12 3.8l2.5 5.2 5.7.8-4.1 4 1 5.6L12 16.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/>',
+  lock: '<rect x="5.5" y="10.5" width="13" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>',
+  external: '<path d="M13.5 4.5h6v6M19.5 4.5l-8 8"/><path d="M17.5 14v4.3a1.2 1.2 0 0 1-1.2 1.2H5.7a1.2 1.2 0 0 1-1.2-1.2V7.7a1.2 1.2 0 0 1 1.2-1.2H10"/>',
 };
 
 export function glyph(name, extraClass = '') {
