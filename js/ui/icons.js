@@ -30,6 +30,8 @@ const GLYPHS = {
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   snake: '<path d="M4.5 17.5c2.5 0 2.6-5 5.2-5h4.6c2.6 0 2.7-5 5.2-5"/><circle cx="19.5" cy="7.5" r="1.1" fill="currentColor"/>',
   activity: '<path d="M3 12h4l2.6-5.5 4.2 11 2.6-5.5H21"/>',
+  store: '<path d="M4.5 9.5h15l-1.2 9.2a1.8 1.8 0 0 1-1.8 1.6H7.5a1.8 1.8 0 0 1-1.8-1.6z"/><path d="M8.6 9.5V7.4a3.4 3.4 0 0 1 6.8 0v2.1"/>',
+  toast: '<path d="M18 9.5a6 6 0 0 0-12 0c0 6.5-2.5 7.5-2.5 7.5h17S18 16 18 9.5z"/><path d="M13.7 20a2 2 0 0 1-3.4 0"/>',
 };
 
 export function glyph(name, extraClass = '') {
